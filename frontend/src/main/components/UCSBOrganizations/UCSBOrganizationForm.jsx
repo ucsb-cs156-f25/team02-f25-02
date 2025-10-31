@@ -43,7 +43,9 @@ function UCSBOrganizationForm({
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="orgTranslationShort">orgTranslationShort</Form.Label>
+        <Form.Label htmlFor="orgTranslationShort">
+          orgTranslationShort
+        </Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-orgTranslationShort"}
           id="orgTranslationShort"
@@ -52,8 +54,8 @@ function UCSBOrganizationForm({
           {...register("orgTranslationShort", {
             required: "orgTranslationShort is required.",
             maxLength: {
-                value: 15,
-                message: "Max length 15 characters",
+              value: 15,
+              message: "Max length 15 characters",
             },
           })}
         />
