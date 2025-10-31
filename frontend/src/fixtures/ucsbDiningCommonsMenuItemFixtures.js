@@ -28,10 +28,3 @@ const ucsbDiningCommonsMenuItemFixtures = {
 };
 
 export { ucsbDiningCommonsMenuItemFixtures };
-
-
-
-
-
-
-
