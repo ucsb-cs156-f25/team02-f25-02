@@ -81,7 +81,7 @@ function UCSBOrganizationForm({
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="inactive">Inactive</Form.Label>
+        <Form.Label htmlFor="inactive">inactive</Form.Label>
         <Form.Select
           data-testid={testIdPrefix + "-inactive"}
           id="inactive"
