@@ -37,6 +37,6 @@ const helpRequestFixtures = {
       solved: false,
     },
   ],
-=};
+};
 
 export { helpRequestFixtures };
