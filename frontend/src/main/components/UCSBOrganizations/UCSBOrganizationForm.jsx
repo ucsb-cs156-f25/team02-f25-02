@@ -76,7 +76,7 @@ function UCSBOrganizationForm({
           })}
         />
         <Form.Control.Feedback type="invalid">
-          {errors.orgTranslationShort?.message}
+          {errors.orgTranslation?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -87,7 +87,7 @@ function UCSBOrganizationForm({
           id="inactive"
           isInvalid={Boolean(errors.inactive)}
           {...register("inactive", {
-            required: "Inactive is required.",
+            required: "inactive is required.",
           })}
         >
           <option value="">Select...</option>
