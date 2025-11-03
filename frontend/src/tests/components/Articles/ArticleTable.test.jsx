@@ -19,8 +19,22 @@ vi.mock("react-router", async () => {
 describe("ArticleTable tests", () => {
   const queryClient = new QueryClient();
 
-  const expectedHeaders = ["id", "Title", "url", "Explanation", "Email", "Date Added (iso format)"];
-  const expectedFields = ["id", "title", "url", "explanation", "email", "dateAdded"];
+  const expectedHeaders = [
+    "id",
+    "Title",
+    "url",
+    "Explanation",
+    "Email",
+    "Date Added (iso format)",
+  ];
+  const expectedFields = [
+    "id",
+    "title",
+    "url",
+    "explanation",
+    "email",
+    "dateAdded",
+  ];
   const testId = "ArticleTable";
 
   test("renders empty table correctly", () => {
@@ -82,7 +96,9 @@ describe("ArticleTable tests", () => {
     );
     expect(
       screen.getByTestId(`${testId}-cell-row-0-col-title`),
-    ).toHaveTextContent("King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion");
+    ).toHaveTextContent(
+      "King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+    );
 
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
       "2",
@@ -90,6 +106,12 @@ describe("ArticleTable tests", () => {
     expect(
       screen.getByTestId(`${testId}-cell-row-1-col-explanation`),
     ).toHaveTextContent("Food with hair causes student to get sick");
+
+    const firstArticle = articlesFixtures.threeArticles[0];
+
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-url`),
+    ).toHaveTextContent(firstArticle.url);
 
     const editButton = screen.getByTestId(
       `${testId}-cell-row-0-col-Edit-button`,
@@ -136,7 +158,9 @@ describe("ArticleTable tests", () => {
     );
     expect(
       screen.getByTestId(`${testId}-cell-row-0-col-title`),
-    ).toHaveTextContent("King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion");
+    ).toHaveTextContent(
+      "King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+    );
 
     expect(screen.getByTestId(`${testId}-cell-row-1-col-id`)).toHaveTextContent(
       "2",
@@ -144,6 +168,12 @@ describe("ArticleTable tests", () => {
     expect(
       screen.getByTestId(`${testId}-cell-row-1-col-explanation`),
     ).toHaveTextContent("Food with hair causes student to get sick");
+
+    const firstArticle = articlesFixtures.threeArticles[0];
+
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-url`),
+    ).toHaveTextContent(firstArticle.url);
 
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     expect(screen.queryByText("Edit")).not.toBeInTheDocument();
@@ -169,9 +199,6 @@ describe("ArticleTable tests", () => {
     expect(
       await screen.findByTestId(`${testId}-cell-row-0-col-id`),
     ).toHaveTextContent("1");
-    expect(
-      screen.getByTestId(`${testId}-cell-row-0-col-title`),
-    ).toHaveTextContent("King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion");
 
     const editButton = screen.getByTestId(
       `${testId}-cell-row-0-col-Edit-button`,
@@ -214,7 +241,9 @@ describe("ArticleTable tests", () => {
     ).toHaveTextContent("1");
     expect(
       screen.getByTestId(`${testId}-cell-row-0-col-title`),
-    ).toHaveTextContent("King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion");
+    ).toHaveTextContent(
+      "King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+    );
 
     const deleteButton = screen.getByTestId(
       `${testId}-cell-row-0-col-Delete-button`,

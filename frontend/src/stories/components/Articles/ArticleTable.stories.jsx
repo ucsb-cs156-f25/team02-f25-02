@@ -4,7 +4,6 @@ import { articlesFixtures } from "fixtures/articlesFixtures";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
 import { http, HttpResponse } from "msw";
 
-
 export default {
   title: "components/Articles/ArticleTable",
   component: ArticleTable,

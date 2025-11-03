@@ -69,7 +69,5 @@ export default function ArticleTable({
     );
   }
 
-  return (
-    <OurTable data={articles} columns={columns} testid={testIdPrefix} />
-  );
+  return <OurTable data={articles} columns={columns} testid={testIdPrefix} />;
 }
