@@ -87,7 +87,7 @@ function App() {
           <Route
             exact
             path="/articles/create"
-            element={<ArticlesCreatePage/>}
+            element={<ArticlesCreatePage />}
           />
         </>
       )}
