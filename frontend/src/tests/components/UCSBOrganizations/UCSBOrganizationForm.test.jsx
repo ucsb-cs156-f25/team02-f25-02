@@ -121,4 +121,41 @@ describe("UCSBOrganization tests", () => {
       expect(screen.getByText(/Max length 15 characters/)).toBeInTheDocument();
     });
   });
+
+  // --- BooleanLiteral killers: orgCode disabled logic ---
+  test("orgCode is ENABLED when creating (no initialContents)", () => {
+    render(<UCSBOrganizationForm submitAction={vi.fn()} />);
+    expect(screen.getByLabelText(/orgCode/i)).toBeEnabled();
+  });
+
+  test("orgCode is DISABLED when editing (has initialContents)", () => {
+    render(
+      <UCSBOrganizationForm
+        initialContents={{
+          orgCode: "ABC",
+          orgTranslationShort: "ENG",
+          orgTranslation: "English",
+          inactive: "false",
+        }}
+        submitAction={vi.fn()}
+        buttonLabel="Update"
+      />,
+    );
+    expect(screen.getByLabelText(/orgCode/i)).toBeDisabled();
+  });
+
+  // --- StringLiteral killers: assert testIds exist ---
+  test("stable testIds exist for fields and submit button", () => {
+    render(<UCSBOrganizationForm submitAction={vi.fn()} />);
+    // These fail if Stryker mutates to empty strings
+    expect(
+      screen.getByTestId("UCSBOrganizationForm-orgTranslation"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("UCSBOrganizationForm-inactive"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("UCSBOrganizationForm-submit"),
+    ).toBeInTheDocument();
+  });
 });
