@@ -125,4 +125,34 @@ describe("HelpRequestForm tests", () => {
     fireEvent.click(submitButton);
     await screen.findByText(/Use YYYY-MM-DDTHH:MM:SS/i);
   });
+
+  test("pattern + maxLength validations and submit testid are enforced", async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <HelpRequestForm />
+        </Router>
+      </QueryClientProvider>,
+    );
+
+    const email = await screen.findByTestId(`${testId}-requesterEmail`);
+    const teamId = screen.getByTestId(`${testId}-teamId`);
+    const explanation = screen.getByTestId(`${testId}-explanation`);
+    const submit = screen.getByTestId(`${testId}-submit`);
+
+    // Force invalid inputs to trigger regex/length validators
+    fireEvent.change(email, { target: { value: "a@b" } });
+    fireEvent.change(teamId, { target: { value: "bad value with spaces!" } });
+    fireEvent.change(explanation, { target: { value: "x".repeat(1201) } }); // > 1200
+    fireEvent.click(submit);
+
+    await screen.findByText(/Requester Email must be a valid email address/);
+    await screen.findByText(
+      /Team Id must only contain numbers, letters, dash, and\/or underscore\./,
+    );
+    await screen.findByText(/Explanation has a maximum of 1200 characters\./);
+
+    // Ensures the exact submit testid exists (kills the data-testid mutant)
+    expect(submit).toBeInTheDocument();
+  });
 });
