@@ -43,4 +43,3 @@ ThreeItemsAdminUser.parameters = {
     }),
   ],
 };
- 
