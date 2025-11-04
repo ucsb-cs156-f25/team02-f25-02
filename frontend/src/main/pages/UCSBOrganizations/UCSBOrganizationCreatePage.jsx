@@ -12,16 +12,14 @@ export default function UCSBOrganizationCreatePage({ storybook = false }) {
       orgCode: organization.orgCode,
       orgTranslationShort: organization.orgTranslationShort,
       orgTranslation: organization.orgTranslation,
-      inactive: organization.inactive,
+      // coerce "true"/"false" (string) to boolean
+      inactive: String(organization.inactive) === "true",
     },
   });
 
   const onSuccess = (organization) => {
     toast(
-      `New organization Created - orgCode: ${organization.orgCode} 
-                                  orgTranslationShort: ${organization.orgTranslationShort} 
-                                  orgTranslation: ${organization.orgTranslation} 
-                                  inactive: ${organization.inactive}`,
+      `New organization Created - orgCode: ${organization.orgCode} orgTranslationShort: ${organization.orgTranslationShort} orgTranslation: ${organization.orgTranslation} inactive: ${organization.inactive}`,
     );
   };
 
