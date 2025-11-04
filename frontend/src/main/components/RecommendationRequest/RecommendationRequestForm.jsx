@@ -62,10 +62,6 @@ function RecommendationRequestForm({
           isInvalid={Boolean(errors.requesterEmail)}
           {...register("requesterEmail", {
             required: "Requester Email is required.",
-            maxLength: {
-              value: 255,
-              message: "Max length 255 characters",
-            },
           })}
         />
         <Form.Control.Feedback type="invalid">
@@ -82,10 +78,6 @@ function RecommendationRequestForm({
           isInvalid={Boolean(errors.professorEmail)}
           {...register("professorEmail", {
             required: "Professor Email is required.",
-            maxLength: {
-              value: 255,
-              message: "Max length 255 characters",
-            },
           })}
         />
         <Form.Control.Feedback type="invalid">
@@ -114,7 +106,7 @@ function RecommendationRequestForm({
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="dateRequested">Date (in UTC)</Form.Label>
+        <Form.Label htmlFor="dateRequested">Date Requested (in UTC)</Form.Label>
         <Form.Control
           data-testid={testIdPrefix + "-dateRequested"}
           id="dateRequested"
