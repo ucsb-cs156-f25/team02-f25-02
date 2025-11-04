@@ -74,6 +74,10 @@ export default function RecommendationRequestTable({
   }
 
   return (
-    <OurTable data={recommendationRequest} columns={columns} testid={testIdPrefix} />
+    <OurTable
+      data={recommendationRequest}
+      columns={columns}
+      testid={testIdPrefix}
+    />
   );
 }

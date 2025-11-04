@@ -40,7 +40,7 @@ ThreeItemsAdminUser.parameters = {
     http.delete("/api/recommendationrequest", () => {
       return HttpResponse.json(
         { message: "Recommendation Request deleted successfully" },
-        { status: 200 }
+        { status: 200 },
       );
     }),
   ],
