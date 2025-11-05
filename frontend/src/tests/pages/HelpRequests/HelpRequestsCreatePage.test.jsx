@@ -63,7 +63,7 @@ describe("HelpRequestsCreatePage tests", () => {
 
   test("when you fill in the form and hit submit, it makes a request to /helpRequests", async () => {
     const queryClient = new QueryClient();
- 
+
     const expectedPost = {
       requesterEmail: "ealemus@ucsb.edu",
       teamId: "f25-4pm-2",
@@ -75,9 +75,8 @@ describe("HelpRequestsCreatePage tests", () => {
 
     const helpRequest = {
       id: 7,
-      ...expectedPost
-    }
-
+      ...expectedPost,
+    };
 
     axiosMock.onPost("/api/helprequests/post").reply(202, helpRequest);
 
