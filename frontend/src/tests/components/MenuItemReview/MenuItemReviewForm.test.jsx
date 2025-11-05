@@ -129,4 +129,22 @@ describe("MenuItemReviewForm tests", () => {
       expect(screen.getByText(/Stars must be at most 5/)).toBeInTheDocument();
     });
   });
+
+  test("that all test IDs are present", async () => {
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <MenuItemReviewForm />
+        </Router>
+      </QueryClientProvider>,
+    );
+
+    expect(await screen.findByTestId(`${testId}-itemId`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-reviewerEmail`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-stars`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-dateReviewed`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-comments`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-submit`)).toBeInTheDocument();
+    expect(screen.getByTestId(`${testId}-cancel`)).toBeInTheDocument();
+  });
 });
