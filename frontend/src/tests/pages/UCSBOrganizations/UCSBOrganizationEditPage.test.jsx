@@ -35,7 +35,6 @@ vi.mock("react-router", async (importOriginal) => {
 
 let axiosMock;
 describe("UCSBOrganizationEditPage tests", () => {
-
   describe("when the backend doesn't return data", () => {
     beforeEach(() => {
       axiosMock = new AxiosMockAdapter(axios);
@@ -95,7 +94,7 @@ describe("UCSBOrganizationEditPage tests", () => {
           orgCode: "SKY",
           orgTranslationShort: "SKYDIVING CLUB",
           orgTranslation: "SKYDIVING CLUB AT UCSB",
-          inactive: false, 
+          inactive: false,
         });
       axiosMock.onPut("/api/ucsborganization").reply(200, {
         orgCode: "SKY",
@@ -126,8 +125,12 @@ describe("UCSBOrganizationEditPage tests", () => {
       await screen.findByTestId("UCSBOrganizationForm-orgCode");
 
       const orgCodeField = screen.getByTestId("UCSBOrganizationForm-orgCode");
-      const orgTranslationShortField = screen.getByTestId("UCSBOrganizationForm-orgTranslationShort");
-      const orgTranslationField = screen.getByTestId("UCSBOrganizationForm-orgTranslation");
+      const orgTranslationShortField = screen.getByTestId(
+        "UCSBOrganizationForm-orgTranslationShort",
+      );
+      const orgTranslationField = screen.getByTestId(
+        "UCSBOrganizationForm-orgTranslation",
+      );
       const inactiveField = screen.getByTestId("UCSBOrganizationForm-inactive");
 
       const submitButton = screen.getByTestId("UCSBOrganizationForm-submit");
@@ -159,8 +162,8 @@ describe("UCSBOrganizationEditPage tests", () => {
 
       await waitFor(() =>
         expect(mockToast).toHaveBeenCalledWith(
-          "UCSB Organization Updated - orgCode: SKY orgTranslationShort: SKY DIVE CLUB"
-        )
+          "UCSB Organization Updated - orgCode: SKY orgTranslationShort: SKY DIVE CLUB",
+        ),
       );
 
       expect(mockNavigate).toHaveBeenCalledWith({ to: "/ucsborganizations" });
