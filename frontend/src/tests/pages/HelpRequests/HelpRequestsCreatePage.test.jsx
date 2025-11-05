@@ -63,15 +63,21 @@ describe("HelpRequestsCreatePage tests", () => {
 
   test("when you fill in the form and hit submit, it makes a request to /helpRequests", async () => {
     const queryClient = new QueryClient();
-    const helpRequest = {
-      id: 7,
+ 
+    const expectedPost = {
       requesterEmail: "ealemus@ucsb.edu",
       teamId: "f25-4pm-2",
       tableOrBreakoutRoom: "2",
-      requestTime: "2025-10-01T16:30:00",
+      requestTime: "2025-10-01T16:30",
       explanation: "add delete, put, get end points for helpRequest",
-      solved: false,
+      solved: "false",
     };
+
+    const helpRequest = {
+      id: 7,
+      ...expectedPost
+    }
+
 
     axiosMock.onPost("/api/helprequests/post").reply(202, helpRequest);
 
@@ -118,7 +124,7 @@ describe("HelpRequestsCreatePage tests", () => {
     fireEvent.change(teamIdInput, { target: { value: "f25-4pm-2" } });
     fireEvent.change(tableOrBreakoutRoomInput, { target: { value: "2" } });
     fireEvent.change(requestTimeInput, {
-      target: { value: "2025-10-01T16:30:00" },
+      target: { value: "2025-10-01T16:30" },
     });
     fireEvent.change(explanationInput, {
       target: { value: "add delete, put, get end points for helpRequest" },
@@ -129,14 +135,7 @@ describe("HelpRequestsCreatePage tests", () => {
 
     await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
-    expect(axiosMock.history.post[0].params).toEqual({
-      requesterEmail: "ealemus@ucsb.edu",
-      teamId: "f25-4pm-2",
-      tableOrBreakoutRoom: "2",
-      requestTime: "2025-10-01T16:30:00",
-      explanation: "add delete, put, get end points for helpRequest",
-      solved: false,
-    });
+    expect(axiosMock.history.post[0].params).toEqual(expectedPost);
 
     expect(mockToast).toHaveBeenCalledWith(
       "New helpRequest Created - id: 7 requesterEmail: ealemus@ucsb.edu",
