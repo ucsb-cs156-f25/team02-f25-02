@@ -1,30 +1,28 @@
-const ucsbDiningCommonsMenuItemFixtures = {
+export const ucsbDiningCommonsMenuItemFixtures = {
   oneUCSBDiningCommonsMenuItem: {
     id: 1,
-    diningCommonsCode: "ortega",
-    name: "steak",
-    station: "Entrees",
+    diningCommonsCode: "DLG",
+    name: "Steak",
+    station: "Main",
   },
   threeUCSBDiningCommonsMenuItems: [
     {
-      id: 1,
-      diningCommonsCode: "ortega",
-      name: "steak",
-      station: "Entrees",
-    },
-    {
       id: 2,
-      diningCommonsCode: "ortega",
+      diningCommonsCode: "DLG",
       name: "Fish",
-      station: "Entrees",
+      station: "Bakery",
     },
     {
       id: 3,
-      diningCommonsCode: "ortega",
-      name: "Pasta",
-      station: "Entrees",
+      diningCommonsCode: "PORTOLA",
+      name: "Steak",
+      station: "Main",
+    },
+    {
+      id: 1,
+      diningCommonsCode: "CARRILLO",
+      name: "Chocolate",
+      station: "Deli",
     },
   ],
 };
-
-export { ucsbDiningCommonsMenuItemFixtures };
