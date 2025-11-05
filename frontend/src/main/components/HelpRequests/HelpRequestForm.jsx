@@ -121,11 +121,11 @@ function HelpRequestForm({
           step="1" // ensures seconds are included
           isInvalid={Boolean(errors.requestTime)}
           {...register("requestTime", {
-            required: "Request time is required."
-            // pattern: {
-            //   value: isodate_regex,
-            //   message: "Use YYYY-MM-DDTHH:MM:SS (e.g., 2025-10-28T17:35:00).",
-            // },
+            required: "Request time is required.",
+            pattern: { //commented out by professor
+              value: isodate_regex, //commented out by professor
+              message: "Use YYYY-MM-DDTHH:MM:SS (e.g., 2025-10-28T17:35:00).", //commented out by professor
+            }, //commented out by professor
           })}
         />
         <Form.Control.Feedback type="invalid">
