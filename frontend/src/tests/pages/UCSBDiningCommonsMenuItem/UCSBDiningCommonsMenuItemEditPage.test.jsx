@@ -1,76 +1,217 @@
-import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import { useParams } from "react-router";
-import UCSBDiningCommonsMenuItemForm from "main/components/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemForm";
-import { Navigate } from "react-router";
-import { useBackend, useBackendMutation } from "main/utils/useBackend";
-import { toast } from "react-toastify";
+import { fireEvent, render, waitFor, screen } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MemoryRouter } from "react-router";
+import UCSBDiningCommonsMenuItemEditPage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemEditPage";
 
-export default function UCSBDiningCommonsMenuItemEditPage({ storybook = false }) {
-  let { id } = useParams();
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
+import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
+import axios from "axios";
+import AxiosMockAdapter from "axios-mock-adapter";
+import mockConsole from "tests/testutils/mockConsole";
 
-  const {
-    data: ucsbDiningCommonsMenuItem,
-    _error,
-    _status,
-  } = useBackend(
-    // Stryker disable next-line all : don't test internal caching of React Query
-    [`/api/UCSBDiningCommonsMenuItem?id=${id}`],
-    {
-      // Stryker disable next-line all : GET is the default, so mutating this to "" doesn't introduce a bug
-      method: "GET",
-      url: `/api/UCSBDiningCommonsMenuItem`,
-      params: {
-        id,
-      },
-    },
-  );
+const mockToast = vi.fn();
+vi.mock("react-toastify", async (importOriginal) => {
+  const originalModule = await importOriginal();
+  return {
+    ...originalModule,
+    toast: vi.fn((x) => mockToast(x)),
+  };
+});
 
-  const objectToAxiosPutParams = (ucsbDiningCommonsMenuItem) => ({
-    url: "/api/UCSBDiningCommonsMenuItem",
-    method: "PUT",
-    params: {
-      id: ucsbDiningCommonsMenuItem.id,
-    },
-    data: {
-      diningCommonsCode: ucsbDiningCommonsMenuItem.diningCommonsCode,
-      name: ucsbDiningCommonsMenuItem.name,
-      station: ucsbDiningCommonsMenuItem.station,
-    },
+const mockNavigate = vi.fn();
+vi.mock("react-router", async (importOriginal) => {
+  const originalModule = await importOriginal();
+  return {
+    ...originalModule,
+    useParams: vi.fn(() => ({
+      id: 17,
+    })),
+    Navigate: vi.fn((x) => {
+      mockNavigate(x);
+      return null;
+    }),
+  };
+});
+
+let axiosMock;
+describe("UCSBDiningCommonsMenuItemEditPage tests", () => {
+  describe("when the backend doesn't return data", () => {
+    beforeEach(() => {
+      axiosMock = new AxiosMockAdapter(axios);
+      axiosMock.reset();
+      axiosMock.resetHistory();
+      axiosMock
+        .onGet("/api/currentUser")
+        .reply(200, apiCurrentUserFixtures.userOnly);
+      axiosMock
+        .onGet("/api/systemInfo")
+        .reply(200, systemInfoFixtures.showingNeither);
+      axiosMock
+        .onGet("/api/UCSBDiningCommonsMenuItem", { params: { id: 17 } })
+        .timeout();
+    });
+
+    afterEach(() => {
+      mockToast.mockClear();
+      mockNavigate.mockClear();
+      axiosMock.restore();
+      axiosMock.resetHistory();
+    });
+
+    const queryClient = new QueryClient();
+    test("renders header but form is not present", async () => {
+      const restoreConsole = mockConsole();
+
+      render(
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <UCSBDiningCommonsMenuItemEditPage />
+          </MemoryRouter>
+        </QueryClientProvider>,
+      );
+      await screen.findByText("Edit UCSBDiningCommonsMenuItem");
+      expect(
+        screen.queryByTestId("UCSBDiningCommonsMenuItem-name"),
+      ).not.toBeInTheDocument();
+      restoreConsole();
+    });
   });
 
-  const onSuccess = (ucsbDiningCommonsMenuItem) => {
-    toast(`UCSBDiningCommonsMenuItem Updated - id: ${ucsbDiningCommonsMenuItem.id} name: ${ucsbDiningCommonsMenuItem.name}`);
-  };
+  describe("tests where backend is working normally", () => {
+    beforeEach(() => {
+      axiosMock = new AxiosMockAdapter(axios);
+      axiosMock.reset();
+      axiosMock.resetHistory();
+      axiosMock
+        .onGet("/api/currentUser")
+        .reply(200, apiCurrentUserFixtures.userOnly);
+      axiosMock
+        .onGet("/api/systemInfo")
+        .reply(200, systemInfoFixtures.showingNeither);
+      axiosMock
+        .onGet("/api/UCSBDiningCommonsMenuItem", { params: { id: 17 } })
+        .reply(200, {
+          id: 17,
+          diningCommonsCode: "DLG",
+          name: "Fish",
+          station: "Bakery",
+        });
+      axiosMock.onPut("/api/UCSBDiningCommonsMenuItem").reply(200, {
+        id: "17",
+        diningCommonsCode: "Ortega",
+        name: "Fish and chips",
+        station: "Bakery and more",
+      });
+    });
 
-  const mutation = useBackendMutation(
-    objectToAxiosPutParams,
-    { onSuccess },
-    // Stryker disable next-line all : hard to set up test for caching
-    [`/api/UCSBDiningCommonsMenuItem?id=${id}`],
-  );
+    afterEach(() => {
+      mockToast.mockClear();
+      mockNavigate.mockClear();
+      axiosMock.restore();
+      axiosMock.resetHistory();
+    });
 
-  const { isSuccess } = mutation;
+    const queryClient = new QueryClient();
 
-  const onSubmit = async (data) => {
-    mutation.mutate(data);
-  };
+    test("Is populated with the data provided", async () => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <UCSBDiningCommonsMenuItemEditPage />
+          </MemoryRouter>
+        </QueryClientProvider>,
+      );
 
-  if (isSuccess && !storybook) {
-    return <Navigate to="/diningcommonsmenuitem" />;
-  }
+      await screen.findByTestId("UCSBDiningCommonsMenuItemForm-id");
 
-  return (
-    <BasicLayout>
-      <div className="pt-2">
-        <h1>Edit UCSBDiningCommonsMenuItem</h1>
-        {ucsbDiningCommonsMenuItem && (
-          <UCSBDiningCommonsMenuItemForm
-            submitAction={onSubmit}
-            buttonLabel={"Update"}
-            initialContents={ucsbDiningCommonsMenuItem}
-          />
-        )}
-      </div>
-    </BasicLayout>
-  );
-}
+      const idField = screen.getByTestId("UCSBDiningCommonsMenuItemForm-id");
+      const diningCommonsCodeField = screen.getByLabelText("DiningCommonsCode");
+      const nameField = screen.getByLabelText("Name");
+      const stationField = screen.getByLabelText("Station");
+      const submitButton = screen.getByText("Update");
+
+      expect(idField).toBeInTheDocument();
+      expect(idField).toHaveValue("17");
+      expect(diningCommonsCodeField).toBeInTheDocument();
+      expect(diningCommonsCodeField).toHaveValue("DLG");
+      expect(nameField).toBeInTheDocument();
+      expect(nameField).toHaveValue("Fish");
+      expect(stationField).toBeInTheDocument();
+      expect(stationField).toHaveValue("Bakery");
+
+      expect(submitButton).toHaveTextContent("Update");
+
+      fireEvent.change(diningCommonsCodeField, {
+        target: { value: "Ortega" },
+      });
+      fireEvent.change(nameField, {
+        target: { value: "Fish and chips" },
+      });
+      fireEvent.change(stationField, {
+        target: { value: "Bakery and more" },
+      });
+      fireEvent.click(submitButton);
+
+      await waitFor(() => expect(mockToast).toBeCalled());
+      expect(mockToast).toBeCalledWith(
+        "UCSBDiningCommonsMenuItem Updated - id: 17 name: Fish and chips",
+      );
+
+      expect(mockNavigate).toBeCalledWith({ to: "/diningcommonsmenuitem" });
+
+      expect(axiosMock.history.put.length).toBe(1); // times called
+      expect(axiosMock.history.put[0].params).toEqual({ id: 17 });
+      expect(axiosMock.history.put[0].data).toBe(
+        JSON.stringify({
+          diningCommonsCode: "Ortega",
+          name: "Fish and chips",
+          station: "Bakery and more",
+        }),
+      ); // posted object
+    });
+
+    test("Changes when you click Update", async () => {
+      render(
+        <QueryClientProvider client={queryClient}>
+          <MemoryRouter>
+            <UCSBDiningCommonsMenuItemEditPage />
+          </MemoryRouter>
+        </QueryClientProvider>,
+      );
+
+      await screen.findByTestId("UCSBDiningCommonsMenuItemForm-id");
+
+      const idField = screen.getByTestId("UCSBDiningCommonsMenuItemForm-id");
+      const diningCommonsCodeField = screen.getByLabelText("DiningCommonsCode");
+      const nameField = screen.getByLabelText("Name");
+      const stationField = screen.getByLabelText("Station");
+      const submitButton = screen.getByText("Update");
+
+      expect(idField).toHaveValue("17");
+      expect(diningCommonsCodeField).toHaveValue("DLG");
+      expect(nameField).toHaveValue("Fish");
+      expect(stationField).toHaveValue("Bakery");
+      expect(submitButton).toBeInTheDocument();
+
+      fireEvent.change(diningCommonsCodeField, {
+        target: { value: "Ortega" },
+      });
+
+      fireEvent.change(nameField, {
+        target: { value: "Fish yummi yummi" },
+      });
+
+      fireEvent.change(stationField, {
+        target: { value: "Fish and Bakery and more" },
+      });
+
+      fireEvent.click(submitButton);
+
+      await waitFor(() => expect(mockToast).toBeCalled());
+      expect(mockToast).toBeCalledWith(
+        "UCSBDiningCommonsMenuItem Updated - id: 17 name: Fish and chips",
+      );
+      expect(mockNavigate).toBeCalledWith({ to: "/diningcommonsmenuitem" });
+    });
+  });
+});
