@@ -1,47 +1,76 @@
-import { render, screen } from "@testing-library/react";
-import UCSBDiningCommonsMenuItemEditPage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemEditPage";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { MemoryRouter } from "react-router";
+import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
+import { useParams } from "react-router";
+import UCSBDiningCommonsMenuItemForm from "main/components/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemForm";
+import { Navigate } from "react-router";
+import { useBackend, useBackendMutation } from "main/utils/useBackend";
+import { toast } from "react-toastify";
 
-import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
-import { systemInfoFixtures } from "fixtures/systemInfoFixtures";
-import axios from "axios";
-import AxiosMockAdapter from "axios-mock-adapter";
-import { expect } from "vitest";
+export default function UCSBDiningCommonsMenuItemEditPage({ storybook = false }) {
+  let { id } = useParams();
 
-describe("UCSBDiningCommonsMenuItemEditPage tests", () => {
-  const axiosMock = new AxiosMockAdapter(axios);
+  const {
+    data: ucsbDiningCommonsMenuItem,
+    _error,
+    _status,
+  } = useBackend(
+    // Stryker disable next-line all : don't test internal caching of React Query
+    [`/api/UCSBDiningCommonsMenuItem?id=${id}`],
+    {
+      // Stryker disable next-line all : GET is the default, so mutating this to "" doesn't introduce a bug
+      method: "GET",
+      url: `/api/UCSBDiningCommonsMenuItem`,
+      params: {
+        id,
+      },
+    },
+  );
 
-  const setupUserOnly = () => {
-    axiosMock.reset();
-    axiosMock.resetHistory();
-    axiosMock
-      .onGet("/api/currentUser")
-      .reply(200, apiCurrentUserFixtures.userOnly);
-    axiosMock
-      .onGet("/api/systemInfo")
-      .reply(200, systemInfoFixtures.showingNeither);
+  const objectToAxiosPutParams = (ucsbDiningCommonsMenuItem) => ({
+    url: "/api/UCSBDiningCommonsMenuItem",
+    method: "PUT",
+    params: {
+      id: ucsbDiningCommonsMenuItem.id,
+    },
+    data: {
+      diningCommonsCode: ucsbDiningCommonsMenuItem.diningCommonsCode,
+      name: ucsbDiningCommonsMenuItem.name,
+      station: ucsbDiningCommonsMenuItem.station,
+    },
+  });
+
+  const onSuccess = (ucsbDiningCommonsMenuItem) => {
+    toast(`UCSBDiningCommonsMenuItem Updated - id: ${ucsbDiningCommonsMenuItem.id} name: ${ucsbDiningCommonsMenuItem.name}`);
   };
 
-  const queryClient = new QueryClient();
-  test("Renders expected content", async () => {
-    // arrange
+  const mutation = useBackendMutation(
+    objectToAxiosPutParams,
+    { onSuccess },
+    // Stryker disable next-line all : hard to set up test for caching
+    [`/api/UCSBDiningCommonsMenuItem?id=${id}`],
+  );
 
-    setupUserOnly();
+  const { isSuccess } = mutation;
 
-    // act
-    render(
-      <QueryClientProvider client={queryClient}>
-        <MemoryRouter>
-          <UCSBDiningCommonsMenuItemEditPage />
-        </MemoryRouter>
-      </QueryClientProvider>,
-    );
+  const onSubmit = async (data) => {
+    mutation.mutate(data);
+  };
 
-    // assert
-    await screen.findByText("Edit page not yet implemented");
-    expect(
-      screen.getByText("Edit page not yet implemented"),
-    ).toBeInTheDocument();
-  });
-});
+  if (isSuccess && !storybook) {
+    return <Navigate to="/diningcommonsmenuitem" />;
+  }
+
+  return (
+    <BasicLayout>
+      <div className="pt-2">
+        <h1>Edit UCSBDiningCommonsMenuItem</h1>
+        {ucsbDiningCommonsMenuItem && (
+          <UCSBDiningCommonsMenuItemForm
+            submitAction={onSubmit}
+            buttonLabel={"Update"}
+            initialContents={ucsbDiningCommonsMenuItem}
+          />
+        )}
+      </div>
+    </BasicLayout>
+  );
+}
