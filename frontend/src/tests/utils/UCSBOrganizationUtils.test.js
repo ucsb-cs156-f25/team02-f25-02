@@ -41,7 +41,7 @@ describe("UCSBDateUtils", () => {
 
       // assert
       expect(result).toEqual({
-        url: "/api/ucsborganizations",
+        url: "/api/ucsborganization",
         method: "DELETE",
         params: { orgCode: "SKY" },
       });

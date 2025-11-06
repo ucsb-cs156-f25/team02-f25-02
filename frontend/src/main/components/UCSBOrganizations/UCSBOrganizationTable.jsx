@@ -25,7 +25,7 @@ export default function RestaurantTable({
   const deleteMutation = useBackendMutation(
     cellToAxiosParamsDelete,
     { onSuccess: onDeleteSuccess },
-    ["/api/ucsborganizations/all"],
+    ["/api/ucsborganization/all"],
   );
   // Stryker restore all
 
