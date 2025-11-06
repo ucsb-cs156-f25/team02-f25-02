@@ -19,8 +19,18 @@ vi.mock("react-router", async () => {
 describe("UCSBOrganizationTable tests", () => {
   const queryClient = new QueryClient();
 
-  const expectedHeaders = ["orgCode", "orgTranslationShort", "orgTranslation", "inactive"];
-  const expectedFields = ["orgCode", "orgTranslationShort", "orgTranslation", "inactive"];
+  const expectedHeaders = [
+    "orgCode",
+    "orgTranslationShort",
+    "orgTranslation",
+    "inactive",
+  ];
+  const expectedFields = [
+    "orgCode",
+    "orgTranslationShort",
+    "orgTranslation",
+    "inactive",
+  ];
   const testId = "UCSBOrganizationTable";
 
   test("renders empty table correctly", () => {
@@ -77,23 +87,27 @@ describe("UCSBOrganizationTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-orgCode`)).toHaveTextContent(
-      "SKY",
-    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-orgCode`),
+    ).toHaveTextContent("SKY");
     expect(
       screen.getByTestId(`${testId}-cell-row-0-col-orgTranslationShort`),
     ).toHaveTextContent("SKYDIVING CLUB");
 
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-orgCode`)).toHaveTextContent(
-      "OSLI",
-    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-orgCode`),
+    ).toHaveTextContent("OSLI");
     expect(
       screen.getByTestId(`${testId}-cell-row-1-col-orgTranslation`),
     ).toHaveTextContent("OFFICE OF STUDENT LIFE");
 
     // NEW ASSERTIONS — cover the "inactive" column
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-inactive`)).toHaveTextContent("false");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-inactive`)).toHaveTextContent("false");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-inactive`),
+    ).toHaveTextContent("false");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-inactive`),
+    ).toHaveTextContent("false");
 
     const editButton = screen.getByTestId(
       `${testId}-cell-row-0-col-Edit-button`,
@@ -135,23 +149,27 @@ describe("UCSBOrganizationTable tests", () => {
       expect(header).toBeInTheDocument();
     });
 
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-orgCode`)).toHaveTextContent(
-      "SKY",
-    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-orgCode`),
+    ).toHaveTextContent("SKY");
     expect(
       screen.getByTestId(`${testId}-cell-row-0-col-orgTranslationShort`),
     ).toHaveTextContent("SKYDIVING CLUB");
 
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-orgCode`)).toHaveTextContent(
-      "OSLI",
-    );
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-orgCode`),
+    ).toHaveTextContent("OSLI");
     expect(
       screen.getByTestId(`${testId}-cell-row-1-col-orgTranslation`),
     ).toHaveTextContent("OFFICE OF STUDENT LIFE");
-    
+
     // NEW ASSERTIONS — cover the "inactive" column
-    expect(screen.getByTestId(`${testId}-cell-row-0-col-inactive`)).toHaveTextContent("false");
-    expect(screen.getByTestId(`${testId}-cell-row-1-col-inactive`)).toHaveTextContent("false");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-0-col-inactive`),
+    ).toHaveTextContent("false");
+    expect(
+      screen.getByTestId(`${testId}-cell-row-1-col-inactive`),
+    ).toHaveTextContent("false");
 
     expect(screen.queryByText("Delete")).not.toBeInTheDocument();
     expect(screen.queryByText("Edit")).not.toBeInTheDocument();
@@ -188,7 +206,9 @@ describe("UCSBOrganizationTable tests", () => {
 
     // assert - check that the navigate function was called with the expected path
     await waitFor(() =>
-      expect(mockedNavigate).toHaveBeenCalledWith("/ucsborganizations/edit/SKY"),
+      expect(mockedNavigate).toHaveBeenCalledWith(
+        "/ucsborganizations/edit/SKY",
+      ),
     );
   });
 
@@ -217,7 +237,7 @@ describe("UCSBOrganizationTable tests", () => {
     expect(
       await screen.findByTestId(`${testId}-cell-row-0-col-orgCode`),
     ).toHaveTextContent("SKY");
-    
+
     const deleteButton = screen.getByTestId(
       `${testId}-cell-row-0-col-Delete-button`,
     );
