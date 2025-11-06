@@ -2,7 +2,7 @@ import React from "react";
 import { useBackend } from "main/utils/useBackend";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import HelpRequestsTable from "main/components/HelpRequests/HelpRequestsTable";
+import HelpRequestTable from "main/components/HelpRequests/HelpRequestTable";
 import { useCurrentUser, hasRole } from "main/utils/useCurrentUser";
 import { Button } from "react-bootstrap";
 
@@ -10,7 +10,7 @@ export default function HelpRequestIndexPage() {
   const currentUser = useCurrentUser();
 
   const {
-    data: HelpRequests,
+    data: helpRequests,
     error: _error,
     status: _status,
   } = useBackend(
@@ -26,7 +26,7 @@ export default function HelpRequestIndexPage() {
       return (
         <Button
           variant="primary"
-          href="/helpRequests/create"
+          href="/HelpRequests/create"
           style={{ float: "right" }}
         >
           Create HelpRequest
@@ -40,7 +40,10 @@ export default function HelpRequestIndexPage() {
       <div className="pt-2">
         {createButton()}
         <h1>HelpRequests</h1>
-        <HelpRequestsTable helpRequests={helpRequests} currentUser={currentUser} />
+        <HelpRequestTable
+          helpRequests={helpRequests}
+          currentUser={currentUser}
+        />
       </div>
     </BasicLayout>
   );
