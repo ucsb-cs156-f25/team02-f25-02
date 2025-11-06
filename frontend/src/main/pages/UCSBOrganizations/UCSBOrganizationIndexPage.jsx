@@ -10,7 +10,7 @@ export default function UCSBOrganizationIndexPage() {
           <a href="/ucsborganizations/create">Create</a>
         </p>
         <p>
-          <a href="/ucsborganizations/edit/SKY">Edit</a>
+          <a href="/ucsborganizations/edit/1">Edit</a>
         </p>
       </div>
     </BasicLayout>
