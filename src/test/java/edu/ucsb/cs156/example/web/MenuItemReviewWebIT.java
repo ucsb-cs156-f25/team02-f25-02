@@ -18,13 +18,21 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class MenuItemReviewWebIT extends WebTestCase {
 
   @Test
-  public void admin_user_can_navigate_to_menu_item_review_create_page() throws Exception {
+  public void admin_user_can_create_menu_item_review() throws Exception {
     setupUser(true);
 
     page.getByText("MenuItemReview").click();
 
     page.getByText("Create").click();
-    assertThat(page.getByText("Create page not yet implemented")).isVisible();
+    assertThat(page.getByText("Create New MenuItemReview")).isVisible();
+    page.getByTestId("MenuItemReviewForm-itemId").fill("27");
+    page.getByTestId("MenuItemReviewForm-reviewerEmail").fill("cgaucho@ucsb.edu");
+    page.getByTestId("MenuItemReviewForm-stars").fill("5");
+    page.getByTestId("MenuItemReviewForm-dateReviewed").fill("2022-01-02T12:00");
+    page.getByTestId("MenuItemReviewForm-comments").fill("Great burrito!");
+    page.getByTestId("MenuItemReviewForm-submit").click();
+
+    assertThat(page.getByText("Index page not yet implemented")).isVisible();
   }
 
   @Test
