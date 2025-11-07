@@ -22,7 +22,7 @@ export default function ArticlesEditPage({ storybook = false }) {
       params: {
         id,
       },
-    }
+    },
   );
 
   const objectToAxiosPutParams = (article) => ({
@@ -48,7 +48,7 @@ export default function ArticlesEditPage({ storybook = false }) {
     objectToAxiosPutParams,
     { onSuccess },
     // Stryker disable next-line all : hard to set up test for caching
-    [`/api/articles?id=${id}`]
+    [`/api/articles?id=${id}`],
   );
 
   const { isSuccess } = mutation;

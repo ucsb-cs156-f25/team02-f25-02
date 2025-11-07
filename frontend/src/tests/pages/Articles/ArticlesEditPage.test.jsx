@@ -86,7 +86,8 @@ describe("ArticlesEditPage tests", () => {
         .reply(200, systemInfoFixtures.showingNeither);
       axiosMock.onGet("/api/articles", { params: { id: 17 } }).reply(200, {
         id: 17,
-        title:"King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+        title:
+          "King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
         url: "https://www.cnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl",
         explanation: "King Charles strips his brother of his royal titles",
         email: "agam@ucsb.edu",
@@ -94,9 +95,11 @@ describe("ArticlesEditPage tests", () => {
       });
       axiosMock.onPut("/api/articles").reply(200, {
         id: 17,
-        title:"EDIT: King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+        title:
+          "EDIT: King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
         url: "https://www.cnnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl",
-        explanation: "EDIT: King Charles strips his brother of his royal titles",
+        explanation:
+          "EDIT: King Charles strips his brother of his royal titles",
         email: "agamakkar@ucsb.edu",
         dateAdded: "2025-11-30T15:08",
       });
@@ -134,26 +137,45 @@ describe("ArticlesEditPage tests", () => {
       expect(idField).toBeInTheDocument();
       expect(idField).toHaveValue("17");
       expect(tittleField).toBeInTheDocument();
-      expect(tittleField).toHaveValue("King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion");
+      expect(tittleField).toHaveValue(
+        "King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+      );
       expect(urlField).toBeInTheDocument();
-      expect(urlField).toHaveValue("https://www.cnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl");
+      expect(urlField).toHaveValue(
+        "https://www.cnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl",
+      );
       expect(explanationField).toBeInTheDocument();
-      expect(explanationField).toHaveValue("King Charles strips his brother of his royal titles");
+      expect(explanationField).toHaveValue(
+        "King Charles strips his brother of his royal titles",
+      );
       expect(emailField).toBeInTheDocument();
       expect(emailField).toHaveValue("agam@ucsb.edu");
       expect(dateAddedField).toBeInTheDocument();
       expect(dateAddedField).toHaveValue("2025-10-30T15:08");
       expect(submitButton).toBeInTheDocument();
-      
 
       fireEvent.change(tittleField, {
-        target: { value: "EDIT: King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion" },
+        target: {
+          value:
+            "EDIT: King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+        },
       });
-      fireEvent.change(urlField, { target: { value: "https://www.cnnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl" } });
-      fireEvent.change(explanationField, { target: { value: "EDIT: King Charles strips his brother of his royal titles" } });
+      fireEvent.change(urlField, {
+        target: {
+          value:
+            "https://www.cnnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl",
+        },
+      });
+      fireEvent.change(explanationField, {
+        target: {
+          value: "EDIT: King Charles strips his brother of his royal titles",
+        },
+      });
       fireEvent.change(emailField, { target: { value: "agamakkar@ucsb.edu" } });
-      fireEvent.change(dateAddedField, { target: { value: "2025-11-30T15:08" } });
-     
+      fireEvent.change(dateAddedField, {
+        target: { value: "2025-11-30T15:08" },
+      });
+
       fireEvent.click(submitButton);
 
       await waitFor(() => expect(mockToast).toHaveBeenCalled());
@@ -167,9 +189,11 @@ describe("ArticlesEditPage tests", () => {
       expect(axiosMock.history.put[0].params).toEqual({ id: 17 });
       expect(axiosMock.history.put[0].data).toBe(
         JSON.stringify({
-          title: "EDIT: King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
+          title:
+            "EDIT: King Charles strips his brother Andrew of ‘prince’ title and evicts him from royal mansion",
           url: "https://www.cnnn.com/2025/10/30/europe/prince-andrew-title-and-honors-remove-latam-intl",
-          explanation: "EDIT: King Charles strips his brother of his royal titles",
+          explanation:
+            "EDIT: King Charles strips his brother of his royal titles",
           email: "agamakkar@ucsb.edu",
           dateAdded: "2025-11-30T15:08",
         }),
@@ -178,4 +202,3 @@ describe("ArticlesEditPage tests", () => {
     });
   });
 });
-
