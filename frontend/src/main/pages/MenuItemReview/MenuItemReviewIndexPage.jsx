@@ -2,21 +2,21 @@ import React from "react";
 import { useBackend } from "main/utils/useBackend";
 
 import BasicLayout from "main/layouts/BasicLayout/BasicLayout";
-import RecommendationRequestTable from "main/components/RecommendationRequest/RecommendationRequestTable";
+import MenuItemReviewTable from "main/components/MenuItemReview/MenuItemReviewTable";
 import { useCurrentUser, hasRole } from "main/utils/useCurrentUser";
 import { Button } from "react-bootstrap";
 
-export default function RecommendationRequestIndexPage() {
+export default function MenuItemReviewIndexPage() {
   const currentUser = useCurrentUser();
 
   const {
-    data: recommendationRequests,
+    data: reviews,
     error: _error,
     status: _status,
   } = useBackend(
     // Stryker disable next-line all : don't test internal caching of React Query
-    ["/api/recommendationrequest/all"],
-    { method: "GET", url: "/api/recommendationrequest/all" },
+    ["/api/menuitemreview/all"],
+    { method: "GET", url: "/api/menuitemreview/all" },
     // Stryker disable next-line all : don't test default value of empty list
     [],
   );
@@ -26,10 +26,10 @@ export default function RecommendationRequestIndexPage() {
       return (
         <Button
           variant="primary"
-          href="/recommendationrequest/create"
+          href="/menuitemreview/create"
           style={{ float: "right" }}
         >
-          Create Recommendation Request
+          Create MenuItemReview
         </Button>
       );
     }
@@ -39,11 +39,8 @@ export default function RecommendationRequestIndexPage() {
     <BasicLayout>
       <div className="pt-2">
         {createButton()}
-        <h1>Recommendation Request</h1>
-        <RecommendationRequestTable
-          recommendationRequest={recommendationRequests}
-          currentUser={currentUser}
-        />
+        <h1>MenuItemReviews</h1>
+        <MenuItemReviewTable reviews={reviews} currentUser={currentUser} />
       </div>
     </BasicLayout>
   );
