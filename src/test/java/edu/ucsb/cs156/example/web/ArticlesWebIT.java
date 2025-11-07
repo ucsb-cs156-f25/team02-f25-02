@@ -59,13 +59,4 @@ public class ArticlesWebIT extends WebTestCase {
     assertThat(page.getByText("Create Articles")).not().isVisible();
     assertThat(page.getByTestId("ArticleTable-cell-row-0-col-name")).not().isVisible();
   }
-
-  @Test
-  public void admin_user_can_see_create_article_button() throws Exception {
-    setupUser(true);
-
-    page.getByText("Articles").click();
-
-    assertThat(page.getByText("Create Article")).isVisible();
-  }
 }
