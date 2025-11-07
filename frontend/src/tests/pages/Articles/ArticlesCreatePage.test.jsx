@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import MenuItemReviewCreatePage from "main/pages/MenuItemReview/MenuItemReviewCreatePage";
+import ArticlesCreatePage from "main/pages/Articles/ArticlesCreatePage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router";
 
@@ -30,7 +30,7 @@ vi.mock("react-router", async (importOriginal) => {
   };
 });
 
-describe("MenuItemReviewCreatePage tests", () => {
+describe("ArticlesCreatePage tests", () => {
   const axiosMock = new AxiosMockAdapter(axios);
 
   beforeEach(() => {
@@ -50,82 +50,83 @@ describe("MenuItemReviewCreatePage tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <MenuItemReviewCreatePage />
+          <ArticlesCreatePage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Item Id")).toBeInTheDocument();
+      expect(screen.getByLabelText("Title")).toBeInTheDocument();
     });
   });
 
-  test("on submit, makes request to backend, and redirects to /menuitemreview", async () => {
+  test("on submit, makes request to backend, and redirects to /articles", async () => {
     const queryClient = new QueryClient();
-    const menuItemReview = {
-      id: 3,
-      itemId: 27,
-      reviewerEmail: "test@example.com",
-      stars: 5,
-      dateReviewed: "2022-01-02T12:00",
-      comments: "Great food!",
+    const article = {
+      id: 1,
+      title: "Test Article",
+      url: "http://testarticle.com",
+      explanation: "This is a test article",
+      email: "user@example.com",
+      dateAdded: "2024-10-01T10:12",
     };
 
-    axiosMock.onPost("/api/menuitemreview/post").reply(202, menuItemReview);
+    axiosMock.onPost("/api/articles/post").reply(202, article);
 
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <MenuItemReviewCreatePage />
+          <ArticlesCreatePage />
         </MemoryRouter>
       </QueryClientProvider>,
     );
 
     await waitFor(() => {
-      expect(screen.getByLabelText("Item Id")).toBeInTheDocument();
+      expect(screen.getByLabelText("Title")).toBeInTheDocument();
     });
 
-    const itemIdInput = screen.getByLabelText("Item Id");
-    expect(itemIdInput).toBeInTheDocument();
+    const titleInput = screen.getByLabelText("Title");
+    expect(titleInput).toBeInTheDocument();
 
-    const reviewerEmailInput = screen.getByLabelText("Reviewer Email");
-    expect(reviewerEmailInput).toBeInTheDocument();
+    const urlInput = screen.getByLabelText("url");
+    expect(urlInput).toBeInTheDocument();
 
-    const starsInput = screen.getByLabelText("Stars");
-    expect(starsInput).toBeInTheDocument();
+    const explanationInput = screen.getByLabelText("Explanation");
+    expect(explanationInput).toBeInTheDocument();
 
-    const dateReviewedInput = screen.getByLabelText(/Date Reviewed/);
-    expect(dateReviewedInput).toBeInTheDocument();
+    const emailInput = screen.getByLabelText("Email");
+    expect(emailInput).toBeInTheDocument();
 
-    const commentsInput = screen.getByLabelText("Comments");
-    expect(commentsInput).toBeInTheDocument();
+    const dateAddedInput = screen.getByLabelText("Date Added (iso format)");
+    expect(dateAddedInput).toBeInTheDocument();
 
     const createButton = screen.getByText("Create");
     expect(createButton).toBeInTheDocument();
 
-    fireEvent.change(itemIdInput, { target: { value: "27" } });
-    fireEvent.change(reviewerEmailInput, {
-      target: { value: "test@example.com" },
+    fireEvent.change(titleInput, { target: { value: "Test Article" } });
+    fireEvent.change(urlInput, { target: { value: "http://testarticle.com" } });
+    fireEvent.change(explanationInput, {
+      target: { value: "This is a test article" },
     });
-    fireEvent.change(starsInput, { target: { value: "5" } });
-    fireEvent.change(dateReviewedInput, {
-      target: { value: "2022-01-02T12:00" },
-    });
-    fireEvent.change(commentsInput, { target: { value: "Great food!" } });
+    fireEvent.change(emailInput, { target: { value: "user@example.com" } });
+    fireEvent.change(dateAddedInput, { target: { value: "2024-10-01T10:12" } });
+
     fireEvent.click(createButton);
 
     await waitFor(() => expect(axiosMock.history.post.length).toBe(1));
 
     expect(axiosMock.history.post[0].params).toEqual({
-      itemId: "27",
-      reviewerEmail: "test@example.com",
-      stars: "5",
-      dateReviewed: "2022-01-02T12:00",
-      comments: "Great food!",
+      title: "Test Article",
+      url: "http://testarticle.com",
+      explanation: "This is a test article",
+      email: "user@example.com",
+      dateAdded: "2024-10-01T10:12",
     });
 
     // assert - check that the toast was called with the expected message
-    expect(mockToast).toBeCalledWith("New review created - id: 3 itemId: 27");
-    expect(mockNavigate).toBeCalledWith({ to: "/menuitemreview" });
+    expect(mockToast).toHaveBeenCalledWith(
+      "New article Created - id: 1 title: Test Article",
+    );
+    expect(mockNavigate).toHaveBeenCalledWith({ to: "/articles" });
   });
 });
