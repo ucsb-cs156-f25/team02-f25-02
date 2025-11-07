@@ -196,8 +196,8 @@ describe("RecommendationRequestEditPage tests", () => {
           requesterEmail: "req1@gmail.com",
           professorEmail: "prof1@ucsb.edu",
           explanation: "need rec1",
-          dateRequested: "2025-11-05T12:12:00Z",
-          dateNeeded: "2025-12-05T12:12:00Z",
+          dateRequested: "2025-11-05T12:12Z",
+          dateNeeded: "2025-12-05T12:12Z",
           done: "true",
         }),
       );
