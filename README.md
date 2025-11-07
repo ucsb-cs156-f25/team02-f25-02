@@ -5,7 +5,7 @@ Instructions: <https://ucsb-cs156.github.io/f25/lab/team02.html>
 Deployments:
 
 * Prod: <https://team02.dokku-02.cs.ucsb.edu>
-* QA: <https://team02-qa.dokku-02.cs.ucsb.edu>
+* QA: <https://team02-qa.dokku-02.cs.ucsb.edu> 
 
 TODO: Fill in this table with correct information. 
 

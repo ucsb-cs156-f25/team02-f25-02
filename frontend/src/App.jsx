@@ -31,10 +31,6 @@ import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
 import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
 import PlaceholderEditPage from "main/pages/Placeholder/PlaceholderEditPage";
 
-import MenuItemReviewIndexPage from "main/pages/MenuItemReview/MenuItemReviewIndexPage";
-import MenuItemReviewCreatePage from "main/pages/MenuItemReview/MenuItemReviewCreatePage";
-import MenuItemReviewEditPage from "main/pages/MenuItemReview/MenuItemReviewEditPage";
-
 import UCSBDiningCommonsMenuItemIndexPage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemIndexPage.jsx";
 import UCSBDiningCommonsMenuItemCreatePage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemCreatePage.jsx";
 import UCSBDiningCommonsMenuItemEditPage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemEditPage.jsx";
@@ -100,52 +96,6 @@ function App() {
 
       {hasRole(currentUser, "ROLE_USER") && (
         <>
-          <Route
-            exact
-            path="/ucsborganizations"
-            element={<UCSBOrganizationIndexPage />}
-          />
-        </>
-      )}
-      {hasRole(currentUser, "ROLE_ADMIN") && (
-        <>
-          <Route
-            exact
-            path="/ucsborganizations/edit/:orgCode"
-            element={<UCSBOrganizationEditPage />}
-          />
-          <Route
-            exact
-            path="/ucsborganizations/create"
-            element={<UCSBOrganizationCreatePage />}
-          />
-        </>
-      )}
-      {hasRole(currentUser, "ROLE_USER") && (
-        <>
-          <Route
-            exact
-            path="/HelpRequests"
-            element={<HelpRequestsIndexPage />}
-          />
-        </>
-      )}
-      {hasRole(currentUser, "ROLE_ADMIN") && (
-        <>
-          <Route
-            exact
-            path="/HelpRequests/edit/:id"
-            element={<HelpRequestsEditPage />}
-          />
-          <Route
-            exact
-            path="/HelpRequests/create"
-            element={<HelpRequestsCreatePage />}
-          />
-        </>
-      )}
-      {hasRole(currentUser, "ROLE_USER") && (
-        <>
           <Route exact path="/restaurants" element={<RestaurantIndexPage />} />
         </>
       )}
@@ -183,7 +133,7 @@ function App() {
           />
         </>
       )}
-      
+
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route exact path="/recommendationrequest" element={<RecommendationRequestIndexPage />} />
