@@ -1,6 +1,6 @@
 import { fireEvent, render, waitFor, screen } from "@testing-library/react";
 import { ucsbDiningCommonsMenuItemFixtures } from "fixtures/ucsbDiningCommonsMenuItemFixtures";
-import UCSBDiningCommonsMenuItemTable from "main/components/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemTable";   
+import UCSBDiningCommonsMenuItemTable from "main/components/UCSBDiningCommonsMenuItems/UCSBDiningCommonsMenuItemTable";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router";
 import { currentUserFixtures } from "fixtures/currentUserFixtures";
@@ -31,7 +31,10 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
-          <UCSBDiningCommonsMenuItemTable ucsbDiningCommonsMenuItems={[]} currentUser={currentUser} />
+          <UCSBDiningCommonsMenuItemTable
+            ucsbDiningCommonsMenuItems={[]}
+            currentUser={currentUser}
+          />
         </MemoryRouter>
       </QueryClientProvider>,
     );
@@ -59,7 +62,9 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBDiningCommonsMenuItemTable
-            ucsbDiningCommonsMenuItems={ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems}
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems
+            }
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -113,7 +118,9 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBDiningCommonsMenuItemTable
-            ucsbDiningCommonsMenuItems={ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems}
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems
+            }
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -158,7 +165,9 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBDiningCommonsMenuItemTable
-            ucsbDiningCommonsMenuItems={ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems}
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems
+            }
             currentUser={currentUser}
           />
         </MemoryRouter>
@@ -183,7 +192,9 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
 
     // assert - check that the navigate function was called with the expected path
     await waitFor(() =>
-      expect(mockedNavigate).toHaveBeenCalledWith("/ucsbDiningCommonsMenuItems/edit/2"),
+      expect(mockedNavigate).toHaveBeenCalledWith(
+        "/diningcommonsmenuitem/edit/2",
+      ),
     );
   });
 
@@ -201,7 +212,9 @@ describe("UCSBDiningCommonsMenuItemTable tests", () => {
       <QueryClientProvider client={queryClient}>
         <MemoryRouter>
           <UCSBDiningCommonsMenuItemTable
-            ucsbDiningCommonsMenuItems={ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems}
+            ucsbDiningCommonsMenuItems={
+              ucsbDiningCommonsMenuItemFixtures.threeUCSBDiningCommonsMenuItems
+            }
             currentUser={currentUser}
           />
         </MemoryRouter>

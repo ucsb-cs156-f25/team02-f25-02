@@ -19,6 +19,10 @@ import UCSBOrganizationCreatePage from "main/pages/UCSBOrganizations/UCSBOrganiz
 import UCSBOrganizationIndexPage from "main/pages/UCSBOrganizations/UCSBOrganizationIndexPage";
 import UCSBOrganizationEditPage from "main/pages/UCSBOrganizations/UCSBOrganizationEditPage";
 
+import MenuItemReviewCreatePage from "main/pages/MenuItemReview/MenuItemReviewCreatePage";
+import MenuItemReviewEditPage from "main/pages/MenuItemReview/MenuItemReviewEditPage";
+import MenuItemReviewIndexPage from "main/pages/MenuItemReview/MenuItemReviewIndexPage";
+
 import ArticlesIndexPage from "main/pages/Articles/ArticlesIndexPage";
 import ArticlesCreatePage from "main/pages/Articles/ArticlesCreatePage";
 import ArticlesEditPage from "main/pages/Articles/ArticlesEditPage";
@@ -30,10 +34,6 @@ import RecommendationRequestEditPage from "main/pages/RecommendationRequest/Reco
 import PlaceholderIndexPage from "main/pages/Placeholder/PlaceholderIndexPage";
 import PlaceholderCreatePage from "main/pages/Placeholder/PlaceholderCreatePage";
 import PlaceholderEditPage from "main/pages/Placeholder/PlaceholderEditPage";
-
-import MenuItemReviewIndexPage from "main/pages/MenuItemReview/MenuItemReviewIndexPage";
-import MenuItemReviewCreatePage from "main/pages/MenuItemReview/MenuItemReviewCreatePage";
-import MenuItemReviewEditPage from "main/pages/MenuItemReview/MenuItemReviewEditPage";
 
 import UCSBDiningCommonsMenuItemIndexPage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemIndexPage.jsx";
 import UCSBDiningCommonsMenuItemCreatePage from "main/pages/UCSBDiningCommonsMenuItem/UCSBDiningCommonsMenuItemCreatePage.jsx";
@@ -102,6 +102,29 @@ function App() {
         <>
           <Route
             exact
+            path="/menuitemreview"
+            element={<MenuItemReviewIndexPage />}
+          />
+        </>
+      )}
+      {hasRole(currentUser, "ROLE_ADMIN") && (
+        <>
+          <Route
+            exact
+            path="/menuitemreview/edit/:id"
+            element={<MenuItemReviewEditPage />}
+          />
+          <Route
+            exact
+            path="/menuitemreview/create"
+            element={<MenuItemReviewCreatePage />}
+          />
+        </>
+      )}
+      {hasRole(currentUser, "ROLE_USER") && (
+        <>
+          <Route
+            exact
             path="/ucsborganizations"
             element={<UCSBOrganizationIndexPage />}
           />
@@ -111,7 +134,7 @@ function App() {
         <>
           <Route
             exact
-            path="/ucsborganizations/edit/:orgCode"
+            path="/ucsborganizations/edit/:id"
             element={<UCSBOrganizationEditPage />}
           />
           <Route
@@ -121,29 +144,7 @@ function App() {
           />
         </>
       )}
-      {hasRole(currentUser, "ROLE_USER") && (
-        <>
-          <Route
-            exact
-            path="/HelpRequests"
-            element={<HelpRequestsIndexPage />}
-          />
-        </>
-      )}
-      {hasRole(currentUser, "ROLE_ADMIN") && (
-        <>
-          <Route
-            exact
-            path="/HelpRequests/edit/:id"
-            element={<HelpRequestsEditPage />}
-          />
-          <Route
-            exact
-            path="/HelpRequests/create"
-            element={<HelpRequestsCreatePage />}
-          />
-        </>
-      )}
+
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route exact path="/restaurants" element={<RestaurantIndexPage />} />
@@ -183,7 +184,7 @@ function App() {
           />
         </>
       )}
-      
+
       {hasRole(currentUser, "ROLE_USER") && (
         <>
           <Route exact path="/recommendationrequest" element={<RecommendationRequestIndexPage />} />
