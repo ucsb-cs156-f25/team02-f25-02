@@ -54,7 +54,10 @@ export default function UCSBOrganizationEditPage({ storybook = false }) {
   const { isSuccess } = mutation;
 
   const onSubmit = async (data) => {
-    mutation.mutate(data);
+    mutation.mutate({
+      ...data,
+      inactive: data.inactive === "true", // "true"/"false" -> boolean
+    });
   };
 
   if (isSuccess && !storybook) {
@@ -69,7 +72,11 @@ export default function UCSBOrganizationEditPage({ storybook = false }) {
           <UCSBOrganizationForm
             submitAction={onSubmit}
             buttonLabel={"Update"}
-            initialContents={ucsbOrganization}
+            initialContents={{
+              ...ucsbOrganization,
+              // make it "true"/"false" so RHF sees a non-empty value
+              inactive: String(ucsbOrganization.inactive),
+            }}
           />
         )}
       </div>
