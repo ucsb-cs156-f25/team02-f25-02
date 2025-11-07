@@ -23,7 +23,7 @@ public class MenuItemReviewWebIT extends WebTestCase {
 
     page.getByText("MenuItemReview").click();
 
-    page.getByText("Create").click();
+    page.getByText("Create MenuItemReview").click();
     assertThat(page.getByText("Create New MenuItemReview")).isVisible();
     page.getByTestId("MenuItemReviewForm-itemId").fill("27");
     page.getByTestId("MenuItemReviewForm-reviewerEmail").fill("cgaucho@ucsb.edu");
@@ -32,15 +32,15 @@ public class MenuItemReviewWebIT extends WebTestCase {
     page.getByTestId("MenuItemReviewForm-comments").fill("Great burrito!");
     page.getByTestId("MenuItemReviewForm-submit").click();
 
-    assertThat(page.getByText("Index page not yet implemented")).isVisible();
+    assertThat(page.getByText("Great burrito!")).isVisible();
   }
 
   @Test
-  public void regular_user_can_navigate_to_menu_item_review_page() throws Exception {
+  public void regular_user_cannot_create_menu_item_review() throws Exception {
     setupUser(false);
 
     page.getByText("MenuItemReview").click();
 
-    assertThat(page.getByText("Index page not yet implemented")).isVisible();
+    assertThat(page.getByText("Create MenuItemReview")).not().isVisible();
   }
 }
