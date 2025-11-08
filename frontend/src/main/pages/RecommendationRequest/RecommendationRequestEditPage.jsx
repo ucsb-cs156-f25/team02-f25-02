@@ -36,8 +36,8 @@ export default function RecommendationRequestEditPage({ storybook = false }) {
       requesterEmail: recommendationRequests.requesterEmail,
       professorEmail: recommendationRequests.professorEmail,
       explanation: recommendationRequests.explanation,
-      dateRequested: `${recommendationRequests.dateRequested}:00Z`,
-      dateNeeded: `${recommendationRequests.dateNeeded}:00Z`,
+      dateRequested: `${recommendationRequests.dateRequested}Z`,
+      dateNeeded: `${recommendationRequests.dateNeeded}Z`,
       done: recommendationRequests.done,
     },
   });
@@ -58,6 +58,7 @@ export default function RecommendationRequestEditPage({ storybook = false }) {
   const { isSuccess } = mutation;
 
   const onSubmit = async (data) => {
+    console.log(data)
     mutation.mutate(data);
   };
 
