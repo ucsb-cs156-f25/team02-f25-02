@@ -82,14 +82,12 @@ function UCSBDiningCommonsMenuItemForm({
           })}
         />
 
-        <Form.Control.Feedback type="invalid" >
+        <Form.Control.Feedback type="invalid">
           {errors.station?.message}
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button type="submit">
-        {buttonLabel}
-      </Button>
+      <Button type="submit">{buttonLabel}</Button>
       <Button
         variant="Secondary"
         onClick={() => navigate(-1)}

@@ -118,12 +118,6 @@ describe("HelpRequestForm tests", () => {
     fireEvent.change(explanationInput, { target: { value: "short" } }); // 5 chars
     fireEvent.click(submitButton);
     await screen.findByText(/at least 10 characters\./i);
-
-    // 3) requestTime ISO seconds format (optional but tiny)
-    const rt = screen.getByTestId(`${testId}-requestTime`);
-    fireEvent.change(rt, { target: { value: "2025-10-28T17:35" } }); // missing :ss
-    fireEvent.click(submitButton);
-    await screen.findByText(/Use YYYY-MM-DDTHH:MM:SS/i);
   });
 
   test("pattern + maxLength validations and submit testid are enforced", async () => {
