@@ -12,7 +12,7 @@ export default {
   component: RecommendationRequestCreatePage,
 };
 
-const Template = () => <RestaurantCreatePage storybook={true} />;
+const Template = () => <RecommendationRequestCreatePage storybook={true} />;
 
 export const Default = Template.bind({});
 Default.parameters = {
