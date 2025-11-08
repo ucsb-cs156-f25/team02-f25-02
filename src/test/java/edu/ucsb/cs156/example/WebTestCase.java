@@ -28,6 +28,11 @@ public abstract class WebTestCase {
   protected Browser browser;
   protected Page page;
 
+  protected String appUrl(String path) {
+    String normalizedPath = path.startsWith("/") ? path : "/" + path;
+    return String.format("http://localhost:%d%s", port, normalizedPath);
+  }
+
   @BeforeAll
   public static void setupWireMock() {
     wireMockServer = new WireMockServer(options().port(8090).globalTemplating(true));
